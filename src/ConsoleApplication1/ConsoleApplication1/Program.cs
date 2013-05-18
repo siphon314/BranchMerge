@@ -7,15 +7,38 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication1
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            var worker = WorkerFactory.Create();
+
             while (true)
             {
-                Console.WriteLine(DateTime.Now);
+                worker.Work();
                 Thread.Sleep(1000);
             }
+        }
+    }
+
+    public class WorkerFactory
+    {
+        public static IWorker Create()
+        {
+            return new WriteNowWorker();
+        }
+    }
+
+    public interface IWorker
+    {
+        void Work();
+    }
+
+    public class WriteNowWorker : IWorker
+    {
+        public void Work()
+        {
+            Console.WriteLine(DateTime.Now);
         }
     }
 }
